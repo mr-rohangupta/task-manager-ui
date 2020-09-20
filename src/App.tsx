@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Switch, Route, withRouter, RouteComponentProps, Link } from 'react-router-dom';
+import { Switch, Route, withRouter, RouteComponentProps } from 'react-router-dom';
 import './App.css';
 import Home from './components/home';
 import Register from './components/register';

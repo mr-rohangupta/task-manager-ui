@@ -11,13 +11,15 @@ type Inputs = {
 
 
 function Register(props: any) {
-    const { register, handleSubmit, watch, errors } = useForm<Inputs>();
+    const { register, handleSubmit, errors } = useForm<Inputs>();
     const onSubmit = (data: any) => { props.onRegister(data) };
+
     useEffect(() => {
         if (props.isLoggedIn) {
             props.history.push("/home")
         }
     }, [props])
+
     return (
 
         <form onSubmit={handleSubmit(onSubmit)}>
