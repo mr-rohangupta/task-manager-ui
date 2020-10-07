@@ -1,6 +1,7 @@
 const defaultState = {
     name: '',
-    pwd: ''
+    pwd: '',
+    Authorization: ''
 }
 const reducer = (state = defaultState, action: any) => {
     switch (action.type) {
@@ -8,9 +9,15 @@ const reducer = (state = defaultState, action: any) => {
 
             return {
                 ...state,
-                userData:action.payload,
-                isLoggedIn:true
+                userData: action.payload,
+                isLoggedIn: true
             };
+
+        case 'GET_USERS':
+            return {
+                ...state,
+                getUsers: action.payload
+            }
 
         default:
             return {
