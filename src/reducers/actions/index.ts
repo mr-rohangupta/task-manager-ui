@@ -14,11 +14,11 @@ export const registerUser = (data: any) => {
     }
 }
 
-export const getUsers = (data: any) => {
+export const getTasks = (data: any) => {
     return (dispatch: any) => {
         return axios.get('http://localhost:3000/tasks', {
             headers: {
-                'Authorization': 'Bearer ' + data.data.token
+                'Authorization': 'Bearer ' +localStorage.getItem('token')
             }
         }).then(res => dispatch({ type: "GET_USERS", payload: res }))
             .catch(err => console.log(err))

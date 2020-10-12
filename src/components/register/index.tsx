@@ -1,7 +1,9 @@
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { connect } from "react-redux";
-import { registerUser } from "../../reducers/actions";
+import { useHistory } from "react-router-dom";
+import { useUser } from "../../global-state-provider-hooks/global-state-provide";
+import { registerUser } from "../../UserService/ApiService";
 
 type Inputs = {
     name: string,
@@ -12,16 +14,19 @@ type Inputs = {
 
 function Register(props: any) {
     const { register, handleSubmit, errors } = useForm<Inputs>();
-    const onSubmit = (data: any) => { props.onRegister(data) };
+    const { userToken, setUserToken, setUser } = useUser()
+    const history = useHistory()
 
-    useEffect(() => {
-        if (props.isLoggedIn) {
-            props.history.push("/home")
-        }
-    }, [props])
+    const onSubmit = async ({ name, password,email }: any) => {
+        const { data } = await registerUser({ name, email, password })
+        console.log(data)
+        setUserToken(data.token)
+        localStorage.setItem('token', data.token)
+        setUser(data.user)
+        history.push('/home')
+    }
 
     return (
-
         <form onSubmit={handleSubmit(onSubmit)}>
             <div className="col-md-6 col-md-offset-3">
                 <h2>Register</h2>
@@ -48,8 +53,4 @@ function Register(props: any) {
     );
 }
 
-const mapStateToProps = (state: any) => ({ ...state })
-const mapDispatchToProps = (dispatch: any) => ({
-    onRegister: (data: any) => dispatch(registerUser(data))
-})
-export default connect(mapStateToProps, mapDispatchToProps)(Register)
+export default Register;

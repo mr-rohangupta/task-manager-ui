@@ -3,23 +3,47 @@ import { Switch, Route, withRouter, RouteComponentProps } from 'react-router-dom
 import './App.css';
 import Home from './components/home';
 import Register from './components/register';
-import Login  from "./containers/Login/Login";
+import Login from "./containers/Login/Login";
+import { globalContext } from './global-state-provider-hooks/global-state-provide';
 
+function App() {
+  const [userToken, setUserToken] = React.useState(null)
+  const [user, setU] = React.useState(null)
+  const setToken = (token: string | null) => {
+    if (token) {
+      console.log(token);
 
-class App extends React.Component<RouteComponentProps<any>>{
-  public render() {
-    return (
+    }
+    else {
+      console.log('not found')
+    }
+  }
+  const setUserr = (user: any) => {
+    if (user) {
+      setU(user)
+    } else {
+
+    }
+  }
+  const value = React.useMemo(() => ({ userToken, setUserToken: setToken, user, setUser: setUserr }), [
+    userToken,
+    setToken,
+    user, setUserr
+  ]);
+
+  return (
+    <globalContext.Provider value={value}>
       <div>
         <nav>
-      
+
         </nav>
         <Switch>
-          <Route path={'/'} exact component={Login}/>
-          <Route path={'/register'} exact component={Register}/>
-          <Route path={'/home'} exact component={Home}/>
+          <Route path={'/'} exact component={Login} />
+          <Route path={'/register'} exact component={Register} />
+          <Route path={'/home'} exact component={Home} />
         </Switch>
       </div>
-    )
-  }
+    </globalContext.Provider>
+  )
 }
 export default withRouter(App);

@@ -1,87 +1,61 @@
 import * as React from 'react';
-import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { RouteComponentProps } from 'react-router-dom';
-import { loginUser } from '../../reducers/actions';
+import { useForm } from 'react-hook-form';
+import { Link, useHistory } from 'react-router-dom';
+import { useUser } from '../../global-state-provider-hooks/global-state-provide';
+import { loginUser } from '../../UserService/ApiService';
 
-export interface IValues {
-    username: string,
-    password: string
-}
-
-export interface IFormState {
+type Inputs = {
     username: string,
     password: string,
     submitted: false
-}
+};
 
-class Login extends React.Component<RouteComponentProps, any>{
-    constructor(props: RouteComponentProps) {
-        super(props);
-        this.state = {
-            username: '',
-            password: '',
-            submitted: false
-        };
+function Login(props: any) {
+    const [username, setUsername] = React.useState('');
+    const [password, setPassword] = React.useState('');
+    const [isSubmitted, setIsSubmitted] = React.useState(false);
+    const { userToken, setUserToken, setUser } = useUser()
+    const history = useHistory()
+    
+    const { register, handleSubmit, errors } = useForm<Inputs>();
 
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-    }
-    componentWillReceiveProps(props: any) {
-        if(props.isLoggedIn){
-            this.props.history.push("/home");
-        }
-    }
-
-    handleChange(e: any, param:string) {
-       this.setState({[param]:e.target.value})
+    const onSubmit = async ({ username, password }: any) => {
+        const { data } = await loginUser({ email: username, password })
+        console.log(data)
+        setUserToken(data.token)
+        localStorage.setItem('token', data.token)
+        setIsSubmitted(true);
+        setUser(data.user)
+        history.push('/home')
     }
 
-    handleSubmit(e: any) {
-        e.preventDefault();
-        this.setState({ submitted: true })
-        const { username, password } = this.state;
-//        @ts-ignore
-        this.props.onLogin({ email: username, password })
-        
-    }
 
-    public render() {
-        console.log(this.props)
-        return (
-            <div className="col-md-6 col-md-offset-3">
-                <h2>Login</h2>
-                <form name="form" onSubmit={this.handleSubmit}>
-                    <div className={'form-group' + (this.state.submitted && !this.state.username ? ' has-error' : '')}>
-                        <label htmlFor="username">Username</label>
-                        <input type="text" className="form-control" name="username" value={this.state.username} onChange={(e:any)=>this.handleChange(e,'username')} />
-                        {this.state.submitted && !this.state.username &&
-                            <div className="help-block">Username is required</div>
-                        }
+    return (
+        <div className="col-md-6 col-md-offset-3">
+            <form onSubmit={handleSubmit(onSubmit)}>
+                <div className="col-md-6 col-md-offset-3">
+                    <h2>Login</h2>
+                    <div className="form-group">
+                        <label htmlFor="name">Name</label>
+                        <input type="text" className="form-control" name="username" ref={register({ required: true })} />
+                        {errors.username && <span>This field is required</span>}
                     </div>
-                    <div className={'form-group' + (this.state.submitted && !this.state.password ? ' has-error' : '')}>
+
+                    <div className="form-group">
                         <label htmlFor="password">Password</label>
-                        <input type="password" className="form-control" name="password" value={this.state.password} onChange={(e:any)=>this.handleChange(e,'password')} />
-                        {this.state.submitted && !this.state.password &&
-                            <div className="help-block">Password is required</div>
-                        }
+                        <input type="password" className="form-control" name="password" ref={register({ required: true })} />
+                        {errors.password && <span>This field is required</span>}
                     </div>
                     <div className="form-group">
-                        <button className="btn btn-primary">Login</button>
-                        {this.state.loggingIn &&
-                            <img src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
-                        }
+                        <input className="btn btn-primary" type="submit" />   
                         <Link to="/register" className="btn btn-link">Register</Link>
                     </div>
-                </form>
-            </div>
-        )
-    }
+                </div>
+            </form>
+        </div>
+    )
+
 
 }
-const mapStateToProps = (state: any) => ({ ...state })
-const mapDispatchToProps = (dispatch: any) => ({
-    onLogin: (data: any) => dispatch(loginUser(data))
-})
-export default connect(mapStateToProps, mapDispatchToProps)(Login)
-// export default withRouter(Login)
+
+export default Login;

@@ -1,13 +1,17 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
-import { getUsers } from "../../reducers/actions";
+import { useUser } from "../../global-state-provider-hooks/global-state-provide";
+import { getTask } from "../../UserService/ApiService";
 
 
 function Home(props: any) {
-
+    const { user } = useUser();
     useEffect(() => {
-        console.log("Inside Use Effect Calling API.." + props.userData.data.token)
-        props.onGetAll(props.userData)
+        async function getTasks() {
+            const { data } = await getTask();
+            console.log(data)
+        }
+        getTasks()
     }, [])
 
     return (
@@ -15,8 +19,4 @@ function Home(props: any) {
     );
 }
 
-const mapStateToProps = (state: any) => ({ ...state })
-const mapDispatchToProps = (dispatch: any) => ({
-    onGetAll: (data: any) => dispatch(getUsers(data))
-})
-export default connect(mapStateToProps, mapDispatchToProps)(Home)
+export default Home
