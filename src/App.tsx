@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { Switch, Route, withRouter, RouteComponentProps } from 'react-router-dom';
+import { Switch, Route, withRouter } from 'react-router-dom';
 import './App.css';
-import Home from './components/home';
-import Register from './components/register';
+import Home from './components/Home';
+import Register from './components/Register';
 import Login from "./containers/Login/Login";
 import { globalContext } from './global-state-provider-hooks/global-state-provide';
 

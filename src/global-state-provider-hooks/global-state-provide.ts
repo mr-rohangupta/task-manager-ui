@@ -1,7 +1,4 @@
 import * as React from "react";
-import { User } from "../app-types";
-import { user } from "./initial-state";
-import rootReducer from "./root-reducer";
 
 const globalContext = React.createContext<{ userToken: string | null, setUserToken(val?: string | null): void, user: any, setUser(val?: any): void }>({
     userToken: null,
