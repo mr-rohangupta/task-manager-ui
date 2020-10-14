@@ -11,8 +11,6 @@ type Inputs = {
 };
 
 function Login(props: any) {
-    const [username, setUsername] = React.useState('');
-    const [password, setPassword] = React.useState('');
     const [isSubmitted, setIsSubmitted] = React.useState(false);
     const { userToken, setUserToken, setUser } = useUser()
     const history = useHistory()

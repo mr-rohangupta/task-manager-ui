@@ -8,27 +8,29 @@ import { globalContext } from './global-state-provider-hooks/global-state-provid
 
 function App() {
   const [userToken, setUserToken] = React.useState(null)
-  const [user, setU] = React.useState(null)
+
+  const [user, setUserProfile] = React.useState(null)
+
   const setToken = (token: string | null) => {
     if (token) {
-      console.log(token);
-
+      console.log("Token Present Setting In Set Token")
     }
     else {
-      console.log('not found')
+      console.log('No Token Found Unable to set..')
     }
   }
-  const setUserr = (user: any) => {
+  
+  const setUserData = (user: any) => {
     if (user) {
-      setU(user)
+      setUserProfile(user)
     } else {
-
     }
   }
-  const value = React.useMemo(() => ({ userToken, setUserToken: setToken, user, setUser: setUserr }), [
+  const value = React.useMemo(() => ({ userToken, setUserToken: setToken, user, setUser: setUserData }), [
     userToken,
     setToken,
-    user, setUserr
+    user,
+    setUserData
   ]);
 
   return (

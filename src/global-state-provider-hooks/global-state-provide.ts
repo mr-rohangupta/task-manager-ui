@@ -1,6 +1,9 @@
 import * as React from "react";
 
-const globalContext = React.createContext<{ userToken: string | null, setUserToken(val?: string | null): void, user: any, setUser(val?: any): void }>({
+const globalContext = React.createContext<{ userToken: string | null, 
+    setUserToken(val?: string | null): void, 
+    user: any, 
+    setUser(val?: any): void }>({
     userToken: null,
     setUserToken: () => void {},
     user: null,
@@ -15,10 +18,5 @@ export function useUser() {
     }
     return context;
 }
-/* 
-const GlobalContextProvider: React.SFC = ({ children }) => {
-    const [state, dispatch] = React.useReducer(rootReducer, user);
-    return <globalContext.Provider value={ { state, dispatch } }> { children } < /globalContext.Provider>
-} */
 
 export { globalContext };
