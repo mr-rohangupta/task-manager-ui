@@ -3,6 +3,8 @@ import { useUser } from "../../global-state-provider-hooks/global-state-provide"
 import { getTask } from "../../UserService/ApiService";
 import styled from "styled-components";
 import TaskItem from "../TaskItem";
+import { Task } from "../../app-types";
+
 
 const Container = styled.div`
   width: 100%;
@@ -15,13 +17,13 @@ display: flex;
 flex-wrap: wrap;
 `;
 
-function Home(props: any) {
-    const [allUser,setAllUser] = React.useState([]);
+function Home(props:any) {
+    
+    const [allUser, setAllUser] = React.useState<Task[]>([]);
     useEffect(() => {
         async function getTasks() {
-           const{ data }  = await getTask();
+            const { data } = await getTask();
             setAllUser(data);
-            console.log("Response", JSON.stringify(data))
         }
         getTasks()
     }, [])
@@ -29,7 +31,7 @@ function Home(props: any) {
     return (
         <Container>
             <TaskListItems>
-                <h1>Hello {JSON.stringify(allUser)}</h1>
+                {allUser.map(item => {return <TaskItem  key={item._id} {...item}/>})}
             </TaskListItems>
         </Container>
     );

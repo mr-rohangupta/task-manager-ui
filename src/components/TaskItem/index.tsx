@@ -35,7 +35,6 @@ const ProductDescriptionDiv = styled.div`
   justify-content: space-between;
 `;
 
-const ProductBrandText = styled.text``;
 
 const AddToCart = styled.button`
   padding: 10px;
@@ -44,21 +43,20 @@ const AddToCart = styled.button`
   border-radius: 10px;
 `;
 
+const ProductBrandText = styled.text``;
 
-const TaskItem = (props:any) => {
-
+function TaskItem(tasks: any) {
+  console.log(tasks)
   return (
-      console.log("Item Received::"+props)
-    // <ProductContainer>
-    //   <ProductFigure>
-    //     <ProductImage src={props.image} />
-    //   </ProductFigure>
-    //   <ProductHeader>{item.name}</ProductHeader>
-    //   <ProductDescriptionDiv>
-    //     <ProductBrandText>{item.brand}</ProductBrandText>
-    //     <AddToCart onClick={() => AddItemToCart(item)}>Add To Cart</AddToCart>
-    //   </ProductDescriptionDiv>
-    // </ProductContainer>
+    <ProductContainer>
+      <ProductFigure>
+      <ProductHeader>{tasks.description}</ProductHeader>
+      </ProductFigure>
+      <ProductDescriptionDiv>
+        <ProductBrandText></ProductBrandText>
+        <AddToCart>Delete</AddToCart>
+      </ProductDescriptionDiv>
+    </ProductContainer>
   );
 };
 
