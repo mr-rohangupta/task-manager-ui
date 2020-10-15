@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import { useUser } from "../../global-state-provider-hooks/global-state-provide";
 import { getTask } from "../../UserService/ApiService";
 import styled from "styled-components";
 import TaskItem from "../TaskItem";

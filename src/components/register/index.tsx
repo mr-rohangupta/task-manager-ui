@@ -1,6 +1,5 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
-import { connect } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { useUser } from "../../global-state-provider-hooks/global-state-provide";
 import { registerUser } from "../../UserService/ApiService";
@@ -12,9 +11,9 @@ type Inputs = {
 };
 
 
-function Register(props: any) {
+function Register() {
     const { register, handleSubmit, errors } = useForm<Inputs>();
-    const { userToken, setUserToken, setUser } = useUser()
+    const { setUserToken, setUser } = useUser()
     const history = useHistory()
 
     const onSubmit = async ({ name, password,email }: any) => {

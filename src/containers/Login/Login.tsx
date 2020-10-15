@@ -10,9 +10,9 @@ type Inputs = {
     submitted: false
 };
 
-function Login(props: any) {
-    const [isSubmitted, setIsSubmitted] = React.useState(false);
-    const { userToken, setUserToken, setUser } = useUser()
+function Login() {
+    const [, setIsSubmitted] = React.useState(false);
+    const { setUserToken, setUser } = useUser()
     const history = useHistory()
     
     const { register, handleSubmit, errors } = useForm<Inputs>();
