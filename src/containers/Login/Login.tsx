@@ -14,7 +14,7 @@ function Login() {
     const [, setIsSubmitted] = React.useState(false);
     const { setUserToken, setUser } = useUser()
     const history = useHistory()
-    
+
     const { register, handleSubmit, errors } = useForm<Inputs>();
 
     const onSubmit = async ({ username, password }: any) => {
@@ -29,27 +29,33 @@ function Login() {
 
 
     return (
-        <div className="col-md-6 col-md-offset-3">
-            <form onSubmit={handleSubmit(onSubmit)}>
-                <div className="col-md-6 col-md-offset-3">
-                    <h2>Login</h2>
-                    <div className="form-group">
-                        <label htmlFor="name">Name</label>
-                        <input type="text" className="form-control" name="username" ref={register({ required: true })} />
-                        {errors.username && <span>This field is required</span>}
-                    </div>
+        <div>
+            <div className="NavContainer">
+            <div className="NavHeader"></div>
+            </div>
+            
+            <div className="col-md-6 col-md-offset-3">
+                <form onSubmit={handleSubmit(onSubmit)}>
+                    <div className="col-md-6 col-md-offset-3">
+                        <h2>Login</h2>
+                        <div className="form-group">
+                            <label htmlFor="name">Name</label>
+                            <input type="text" className="form-control" name="username" ref={register({ required: true })} />
+                            {errors.username && <span>This field is required</span>}
+                        </div>
 
-                    <div className="form-group">
-                        <label htmlFor="password">Password</label>
-                        <input type="password" className="form-control" name="password" ref={register({ required: true })} />
-                        {errors.password && <span>This field is required</span>}
+                        <div className="form-group">
+                            <label htmlFor="password">Password</label>
+                            <input type="password" className="form-control" name="password" ref={register({ required: true })} />
+                            {errors.password && <span>This field is required</span>}
+                        </div>
+                        <div className="form-group">
+                            <input className="btn btn-primary" type="submit" />
+                            <Link to="/register" className="btn btn-link">Register</Link>
+                        </div>
                     </div>
-                    <div className="form-group">
-                        <input className="btn btn-primary" type="submit" />   
-                        <Link to="/register" className="btn btn-link">Register</Link>
-                    </div>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
     )
 

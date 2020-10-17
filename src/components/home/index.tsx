@@ -16,8 +16,8 @@ display: flex;
 flex-wrap: wrap;
 `;
 
-function Home(props:any) {
-    
+function Home(props: any) {
+
     const [allUser, setAllUser] = React.useState<Task[]>([]);
     useEffect(() => {
         async function getTasks() {
@@ -28,11 +28,17 @@ function Home(props:any) {
     }, [])
 
     return (
-        <Container>
-            <TaskListItems>
-                {allUser.map(item => {return <TaskItem  key={item._id} {...item}/>})}
-            </TaskListItems>
-        </Container>
+        <div>
+            <div className="NavContainer">
+                <div className="NavHeader"><h5>Task App</h5></div>
+            </div>
+            <Container>
+                <TaskListItems>
+                    {allUser.map(item => { return <TaskItem key={item._id} {...item} /> })}
+                </TaskListItems>
+            </Container>
+        </div>
+
     );
 }
 

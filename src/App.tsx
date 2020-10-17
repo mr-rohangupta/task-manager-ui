@@ -5,6 +5,15 @@ import Home from './components/Home';
 import Register from './components/Register';
 import Login from "./containers/Login/Login";
 import { globalContext } from './global-state-provider-hooks/global-state-provide';
+import { ThemeProvider } from "@chakra-ui/core";
+import customTheme from './theme';
+import styled from "styled-components";
+
+const NavHeader = styled.div`
+  width: 20%;
+  float: left;
+  padding: 10px;
+`;
 
 function App() {
   const [userToken, setUserToken] = React.useState(null)
@@ -19,7 +28,7 @@ function App() {
       console.log('No Token Found Unable to set..')
     }
   }
-  
+
   const setUserData = (user: any) => {
     if (user) {
       setUserProfile(user)
@@ -35,16 +44,15 @@ function App() {
 
   return (
     <globalContext.Provider value={value}>
-      <div>
-        <nav>
-
-        </nav>
-        <Switch>
-          <Route path={'/'} exact component={Login} />
-          <Route path={'/register'} exact component={Register} />
-          <Route path={'/home'} exact component={Home} />
-        </Switch>
-      </div>
+      <ThemeProvider theme={ customTheme }>
+        <div>
+          <Switch>
+            <Route path={'/'} exact component={Login} />
+            <Route path={'/register'} exact component={Register} />
+            <Route path={'/home'} exact component={Home} />
+          </Switch>
+        </div>
+      </ThemeProvider>
     </globalContext.Provider>
   )
 }
