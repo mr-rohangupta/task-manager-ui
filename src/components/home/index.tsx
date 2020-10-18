@@ -3,6 +3,7 @@ import { getTask } from "../../UserService/ApiService";
 import styled from "styled-components";
 import TaskItem from "../TaskItem";
 import { Task } from "../../app-types";
+import { Link } from 'react-router-dom';
 
 
 const Container = styled.div`
@@ -20,6 +21,7 @@ function Home(props: any) {
 
     const [allUser, setAllUser] = React.useState<Task[]>([]);
     useEffect(() => {
+        console.log("Rendering Home..")
         async function getTasks() {
             const { data } = await getTask();
             setAllUser(data);
@@ -30,7 +32,8 @@ function Home(props: any) {
     return (
         <div>
             <div className="NavContainer">
-                <div className="NavHeader"><h5>Task App</h5></div>
+                <div className="TaskApp"><h5>Task App</h5></div>
+                <div className="AddTask"><Link to="/task"><input type="button" value="Add Task" /></Link></div>
             </div>
             <Container>
                 <TaskListItems>

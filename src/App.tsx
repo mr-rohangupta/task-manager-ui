@@ -8,6 +8,7 @@ import { globalContext } from './global-state-provider-hooks/global-state-provid
 import { ThemeProvider } from "@chakra-ui/core";
 import customTheme from './theme';
 import styled from "styled-components";
+import Task from './components/Task';
 
 const NavHeader = styled.div`
   width: 20%;
@@ -44,12 +45,13 @@ function App() {
 
   return (
     <globalContext.Provider value={value}>
-      <ThemeProvider theme={ customTheme }>
+      <ThemeProvider theme={customTheme}>
         <div>
           <Switch>
             <Route path={'/'} exact component={Login} />
             <Route path={'/register'} exact component={Register} />
             <Route path={'/home'} exact component={Home} />
+            <Route path={'/task'} exact component={Task} />
           </Switch>
         </div>
       </ThemeProvider>
