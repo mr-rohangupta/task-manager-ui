@@ -2,6 +2,7 @@ import React from "react";
 import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import { deleteTask } from "../../UserService/ApiService";
+import EditTaskModal from "../EditTaskModal";
 import Task from "../Task";
 
 
@@ -50,7 +51,7 @@ const ProductBrandText = styled.a``;
 
 
 function TaskItem(tasks: any) {
-  const [editTask, setEditTask] = React.useState(false);
+  const [editTask, setEditTask] = React.useState();
   const history = useHistory()
 
   function handleDelete(id: any) {
@@ -66,7 +67,7 @@ function TaskItem(tasks: any) {
   function handleEdit(id: any) {
     console.log("Id of Task::" + id)
     if (id !== null) {
-      setEditTask(true)
+      setEditTask(tasks)
     }
   }
 
@@ -78,6 +79,7 @@ function TaskItem(tasks: any) {
       <TaskDescriptionDiv>
         <ProductBrandText></ProductBrandText>
         <EditTask onClick={() => handleEdit(tasks._id)}>Edit</EditTask>
+        {editTask ? <EditTaskModal {...editTask || {}} closeModal={() => setEditTask(undefined)} /> : null}
         <DeleteTask onClick={() => handleDelete(tasks._id)}>Delete</DeleteTask>
       </TaskDescriptionDiv>
     </TaskContainer>

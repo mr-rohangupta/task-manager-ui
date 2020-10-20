@@ -31,6 +31,15 @@ export async function deleteTask(data: any) {
         url: 'http://localhost:3000/tasks' + '/' + data,
         headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token') },
     });
+}
 
-
+export const updateTask = (data: any): any => {
+    const id = data.id;
+delete data.id   
+ return axios({
+        method: 'PATCH',
+        url: 'http://localhost:3000/tasks' + '/' + id,
+        headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token') },
+        data
+    });
 }
